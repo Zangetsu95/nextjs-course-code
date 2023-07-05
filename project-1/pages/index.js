@@ -1,3 +1,4 @@
+import EventList from '../components/events/EventList'
 import { getFeaturedEvents } from '../dummy-data'
 
 function HomePage() {
@@ -6,7 +7,7 @@ function HomePage() {
 
     return (
         <>
-            <h1>Home Page</h1>
+            <EventList items={featuredEvents} />
         </>
     )
 }
