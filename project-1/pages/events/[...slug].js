@@ -1,5 +1,9 @@
 import { useRouter } from "next/router"
 import { getFilteredEvents } from '../../dummy-data'
+import EventList from "../../components/events/EventList";
+import ResultsTitle from "../../components/events/results-title";
+import Button from "../../components/ui/button";
+import ErrorAlert from "../../components/ui/error-alert";
 
 function FilteredEventsPage() {
 
@@ -20,7 +24,17 @@ function FilteredEventsPage() {
     const numMotnh = +filteredMonth
 
     if (isNaN(numYear) || isNaN(numMotnh) || numYear > 2030 || numYear < 2021 || numMotnh < 1 || numMotnh > 12) {
-        return <p>Invalid filter.Please adjust your values !</p>
+        return (
+            <>
+                <ErrorAlert>
+                    <p>Invalid filter.Please adjust your values !</p>
+                    <div className='center'>
+                        <Button link='/events'>Show All Events</Button>
+                    </div>
+                </ErrorAlert>
+
+            </>
+        )
     }
 
     const filteredEvents = getFilteredEvents({
@@ -29,12 +43,26 @@ function FilteredEventsPage() {
     })
 
     if (!filteredEvents || filteredEvents.length === 0) {
-        return <p>No events found for the chosen filter !</p>
+        return (
+            <>
+                <ErrorAlert>
+                    <p>No events found for the chosen filter !</p>
+                    <div className='center'>
+                        <Button link='/events'>Show All Events</Button>
+                    </div>
+                </ErrorAlert>
+
+            </>
+        )
+
     }
+
+    const date = new Date(numYear, numMotnh - 1)
 
     return (
         <>
-            <h1>Slug of an event</h1>
+            <ResultsTitle date={date} />
+            <EventList items={filteredEvents} />
         </>
     )
 }
