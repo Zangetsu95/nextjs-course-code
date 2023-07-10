@@ -12,6 +12,7 @@ function HomePage(props) {
 }
 
 export async function getStaticProps() {
+  console.log('(Re-)Generationg...')
   const filePath = path.join(process.cwd(), 'data', 'dummy-backend.json');
   const jsonData = await fs.promises.readFile(filePath, 'utf-8');
   const data = JSON.parse(jsonData);
@@ -19,7 +20,8 @@ export async function getStaticProps() {
   return {
     props: {
       products: data.products
-    }
+    },
+    revalidate: 10
   };
 }
 
